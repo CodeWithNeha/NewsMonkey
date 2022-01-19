@@ -4,7 +4,6 @@ import NewsItem from './NewsItem'
 import PropTypes from 'prop-types'
 import InfiniteScroll from "react-infinite-scroll-component";
 
-
 export default class News extends Component {
 
     static defaultProps={
@@ -32,13 +31,17 @@ export default class News extends Component {
         document.title= `${this.capital(this.props.category)} - NewsMonkey`;
     }
     async updateNews(){
+        this.props.setProgress(0);
         let url = `https://newsapi.org/v2/top-headlines?country=${this.props.country}&category=${this.props.category}&apiKey=2480341fde894b9388e6f9959ac8b7be&page=${this.state.page}&pageSize=${this.props.pageSize}`
         this.setState({
             loading:true
         })
         let data = await fetch(url); // fetch api
+        this.props.setProgress(30);
         let parseData = await data.json();
+        this.props.setProgress(60);
         this.setState({articles: parseData.articles, totalResults: parseData.totalResults, loading: false})
+        this.props.setProgress(100);
     }
     async componentDidMount(){
         this.updateNews();
