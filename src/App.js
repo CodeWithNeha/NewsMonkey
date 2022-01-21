@@ -15,6 +15,7 @@ export default class App extends Component {
   state ={
     progress:10
   }
+
   setProgress = (progress)=>{
     this.setState({progress: progress})
   }
